@@ -24,7 +24,6 @@ class GraphifyView extends g_view.GraphifyView {
 }
 
 class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
-
   late final controller = widget.controller ?? GraphifyController();
 
   String get uid => controller.uid;
@@ -47,7 +46,7 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
   HTMLIFrameElement createHTMLIFrameElement(_) {
     final iframe = HTMLIFrameElement()
       ..id = 'graphify_$uid'
-      ..style.width  = '100%'
+      ..style.width = '100%'
       ..style.height = '100%'
       ..style.border = 'none'
       ..srcdoc = indexHtml(id: uid).toJS
@@ -71,6 +70,36 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
 
       body?.append(scriptElement);
     }
+
+    final shim = HTMLScriptElement()
+      ..id = 'graphify-click-channel-shim-$uid'
+      ..innerHTML = '''
+      (function(uid){
+        // Definisci il channel solo se non già presente
+        if (!window.ClickEventChannel) {
+          window.ClickEventChannel = {
+            postMessage: function(payload) {
+              try {
+                var envelope = JSON.stringify({
+                  source: 'graphify',
+                  chartId: uid,
+                  payload: String(payload)
+                });
+                // Inoltra come stringa: il controller web si aspetta un JSON string
+                window.postMessage(envelope, '*');
+              } catch (e) {
+                console.error('ClickEventChannel shim error', e);
+              }
+            }
+          };
+        }
+      })('$uid');
+    '''
+          .toJS;
+
+    final dom = window.document;
+    final body = dom.documentElement?.children.item(1);
+    body?.append(shim);
   }
 
   @override

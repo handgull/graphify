@@ -5,6 +5,7 @@ import 'package:graphify_example/charts/basic_area_chart.dart';
 import 'package:graphify_example/charts/basic_bar_chart.dart';
 import 'package:graphify_example/charts/basic_line_chart.dart';
 import 'package:graphify_example/charts/candle_stick_brush.dart';
+import 'package:graphify_example/charts/chart_click.dart';
 import 'package:graphify_example/charts/customized_radar_chart.dart';
 import 'package:graphify_example/charts/graph_webkit_dep.dart';
 import 'package:graphify_example/charts/heatmap_discrete_mapping_of_color.dart';
@@ -18,7 +19,6 @@ import 'package:graphify_example/charts/shang_hai_index.dart';
 import 'package:graphify_example/charts/stacked_area_chart.dart';
 import 'package:graphify_example/charts/tangential_polar_bar_chart.dart';
 import 'package:graphify_example/charts/world_population.dart';
-import 'package:graphify_example/test_chart_click.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 void main() {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static const charts = {
-    "Chart Click Test": TestChartClick(),
+    "Chart Click Test": ChartClick(),
     "Basic Line Chart": BasicLineChart(),
     'Basic Area Chart': BasicAreaChart(),
     'Stacked Area Chart': StackedAreaChart(),

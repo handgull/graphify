@@ -2,7 +2,7 @@
 
 import 'package:graphify/src/controller/js_methods.dart';
 
-String indexHtml({ required String id, String? dependencies}) {
+String indexHtml({required String id, String? dependencies}) {
   return '''<!DOCTYPE html>
     <html>
     <head>
@@ -30,6 +30,7 @@ String indexHtml({ required String id, String? dependencies}) {
           const chart = context.echarts.init(dom, 'dark', { renderer: 'canvas', useDirtyRect: false });
           context.${JsMethods.initChart}('$id', chart, {});
           context.${JsMethods.updateChart}('$id', {});
+          context.${JsMethods.initClickListener}(chart);
           window.addEventListener('resize', chart.resize);
       </script>
     </body>

@@ -19,7 +19,6 @@ class GraphifyView extends g_view.GraphifyView {
 }
 
 class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
-
   late final webViewController = WebViewController();
   late final controller =
       (widget.controller ?? GraphifyController()) as GraphifyController;
@@ -30,6 +29,13 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setOnConsoleMessage(widget.onConsoleMessage ?? (_) {})
+      ..addJavaScriptChannel(
+        'ClickEventChannel',
+        onMessageReceived: (JavaScriptMessage m) {
+          debugPrint('JS->Dart (ClickEventChannel): ${m.message}');
+          controller.onChartClick(m.message);
+        },
+      )
       ..loadHtmlString(
         indexHtml(
           id: controller.uid,

@@ -25,6 +25,58 @@ const String chartScripts = """
       chart.setOption(option);
       graphify_charts[chart_id].option = option;
     }
+
+    function ${JsMethods.initClickListener}(chart) {
+      try {
+      chart.off && chart.off('click');
+      } catch (e) {}
+
+      chart.on('click', function (data) {
+        try {
+          if (!data) return;
+          console.log('graphify click');
+
+          function safeValue(value, depth) {
+            if (value == null) return null;
+            if (depth > 3) return undefined;
+            const t = typeof value;
+            if (t === 'string' || t === 'number' || t === 'boolean') return value;
+            if (Array.isArray(value)) return value.map(v => safeValue(v, depth + 1)).filter(v => v !== undefined);
+            if (t === 'object') {
+              const out = {};
+              const keys = ['type', 'componentType', 'seriesType', 'seriesIndex', 'seriesName', 'name', 'dataIndex', 'data', 'value', 'color', 'marker'];
+              keys.forEach(k => {
+                if (k in value) {
+                  const v = safeValue(value[k], depth + 1);
+                  if (v !== undefined) out[k] = v;
+                }
+              });
+              // fallback: pick plain props if 'data' is missing
+              if (!('data' in out) && value && typeof value === 'object') {
+                Object.keys(value).forEach(k => {
+                  if (out[k] !== undefined) return;
+                  const v = value[k];
+                  const vt = typeof v;
+                  if (vt === 'string' || vt === 'number' || vt === 'boolean') out[k] = v;
+                });
+              }
+              return out;
+            }
+            return undefined;
+          }
+
+          const sanitized = safeValue(data, 0) || {};
+          const payload = JSON.stringify(sanitized);
+          if (window && window.ClickEventChannel && typeof window.ClickEventChannel.postMessage === 'function') {
+            window.ClickEventChannel.postMessage(payload);
+          } else {
+            console.warn('ClickEventChannel not ready');
+          }
+        } catch (e) {
+          console.error('Error posting click event:', e);
+        }
+      });
+    }
     
     function ${JsMethods.disposeChart} (chart_id) {
       const chart = graphify_charts[chart_id]?.chart;
@@ -40,4 +92,3 @@ const String chartScripts = """
     }
     
 """;
-
