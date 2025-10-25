@@ -18,6 +18,7 @@ import 'package:graphify_example/charts/shang_hai_index.dart';
 import 'package:graphify_example/charts/stacked_area_chart.dart';
 import 'package:graphify_example/charts/tangential_polar_bar_chart.dart';
 import 'package:graphify_example/charts/world_population.dart';
+import 'package:graphify_example/test_chart_click.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 void main() {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static const charts = {
+    "Chart Click Test": TestChartClick(),
     "Basic Line Chart": BasicLineChart(),
     'Basic Area Chart': BasicAreaChart(),
     'Stacked Area Chart': StackedAreaChart(),
@@ -90,13 +92,15 @@ class MyApp extends StatelessWidget {
                         ListTile(
                           title: const Text("Open Source Code"),
                           onTap: () {
-                            launchUrlString("https://github.com/warioddly/graphify");
+                            launchUrlString(
+                                "https://github.com/warioddly/graphify");
                           },
                         ),
                         ListTile(
                           title: const Text("Pub.dev"),
                           onTap: () {
-                            launchUrlString("https://pub.dev/packages/graphify");
+                            launchUrlString(
+                                "https://pub.dev/packages/graphify");
                           },
                         ),
                       ],
