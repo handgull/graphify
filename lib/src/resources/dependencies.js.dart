@@ -26,7 +26,7 @@ const String chartScripts = """
       graphify_charts[chart_id].option = option;
     }
 
-    function ${JsMethods.initClickListener}(chart) {
+    function ${JsMethods.initClickListener}(chart, chart_id) {
       try {
       chart.off && chart.off('click');
       } catch (e) {}
@@ -67,10 +67,20 @@ const String chartScripts = """
 
           const sanitized = safeValue(data, 0) || {};
           const payload = JSON.stringify(sanitized);
+          // Mobile (WebView) channel
           if (window && window.ClickEventChannel && typeof window.ClickEventChannel.postMessage === 'function') {
             window.ClickEventChannel.postMessage(payload);
-          } else {
-            console.warn('ClickEventChannel not ready');
+          }
+          // Web (Flutter web) channel - post directly to the hosting window
+          try {
+            const envelope = JSON.stringify({
+              source: 'graphify',
+              chartId: chart_id,
+              payload: String(payload)
+            });
+            window.postMessage(envelope, '*');
+          } catch (e) {
+            console.error('Error posting window message:', e);
           }
         } catch (e) {
           console.error('Error posting click event:', e);

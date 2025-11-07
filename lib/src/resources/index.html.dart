@@ -30,7 +30,7 @@ String indexHtml({required String id, String? dependencies}) {
           const chart = context.echarts.init(dom, 'dark', { renderer: 'canvas', useDirtyRect: false });
           context.${JsMethods.initChart}('$id', chart, {});
           context.${JsMethods.updateChart}('$id', {});
-          context.${JsMethods.initClickListener}(chart);
+          context.${JsMethods.initClickListener}(chart, '$id');
           window.addEventListener('resize', chart.resize);
       </script>
     </body>
