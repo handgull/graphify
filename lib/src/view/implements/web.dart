@@ -75,7 +75,7 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
       ..id = 'graphify-click-channel-shim-$uid'
       ..innerHTML = '''
       (function(uid){
-        // Definisci il channel solo se non già presente
+        // Define the channel only if not already present
         if (!window.ClickEventChannel) {
           window.ClickEventChannel = {
             postMessage: function(payload) {
@@ -85,7 +85,7 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
                   chartId: uid,
                   payload: String(payload)
                 });
-                // Inoltra come stringa: il controller web si aspetta un JSON string
+                // Forward as a string: the web controller expects a JSON string
                 window.postMessage(envelope, '*');
               } catch (e) {
                 console.error('ClickEventChannel shim error', e);

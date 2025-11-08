@@ -12,7 +12,6 @@ class BasicLineChart extends StatefulWidget {
 }
 
 class _BasicLineChartState extends State<BasicLineChart> {
-
   final controller = GraphifyController();
   Timer? timer;
 
@@ -28,14 +27,13 @@ class _BasicLineChartState extends State<BasicLineChart> {
         ]
       });
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return GraphifyView(
       controller: controller,
-      onConsoleMessage: <String>(message) {
+      onConsoleMessage: (message) {
         print("[ERROR] $message");
       },
       initialOptions: const {
@@ -44,9 +42,7 @@ class _BasicLineChartState extends State<BasicLineChart> {
           "type": "category",
           "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         },
-        "yAxis": {
-          "type": "value"
-        },
+        "yAxis": {"type": "value"},
         "series": [
           {
             "data": [150, 230, 224, 218, 135, 147, 260],
@@ -63,5 +59,4 @@ class _BasicLineChartState extends State<BasicLineChart> {
     controller.dispose();
     super.dispose();
   }
-
 }

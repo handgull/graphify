@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:graphify/src/controller/implements/mobile.dart';
 import 'package:graphify/src/resources/dependencies.js.dart';
@@ -62,9 +64,8 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
     if (widget.controller == null) {
       controller.dispose();
     }
-    webViewController
-      ..clearLocalStorage()
-      ..clearCache();
+    unawaited(webViewController.clearLocalStorage());
+    unawaited(webViewController.clearCache());
     super.dispose();
   }
 }
