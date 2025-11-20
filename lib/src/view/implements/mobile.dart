@@ -34,7 +34,6 @@ class _GraphifyViewState extends g_view.GraphifyViewState<GraphifyView> {
       ..addJavaScriptChannel(
         'ClickEventChannel',
         onMessageReceived: (JavaScriptMessage m) {
-          debugPrint('JS->Dart (ClickEventChannel): ${m.message}');
           controller.onChartClick(m.message);
         },
       )
