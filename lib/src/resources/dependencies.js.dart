@@ -34,7 +34,6 @@ const String chartScripts = """
       chart.on('click', function (data) {
         try {
           if (!data) return;
-          console.log('graphify click');
 
           function safeValue(value, depth) {
             if (value == null) return null;
