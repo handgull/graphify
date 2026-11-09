@@ -35,3 +35,5 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 coverage/
+.pub-cache/
+.pub/
