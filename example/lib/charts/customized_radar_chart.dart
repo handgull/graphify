@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:graphify/graphify.dart';
 
@@ -11,10 +10,8 @@ class CustomizedRadarChart extends StatelessWidget {
       controller: GraphifyController(),
       initialOptions: const {
         'color': ['#67F9D8', '#FFE434', '#56A3F1', '#FF917C'],
-        'title': {
-          'text': 'Customized Radar Chart',
-        },
-        'legend': {},
+        'title': {'text': 'Customized Radar Chart'},
+        'legend': <String, dynamic>{},
         'radar': [
           {
             'indicator': [
@@ -29,10 +26,7 @@ class CustomizedRadarChart extends StatelessWidget {
             'startAngle': 90,
             'splitNumber': 4,
             'shape': 'circle',
-            'axisName': {
-              'formatter': '【{value}】',
-              'color': '#428BD4',
-            },
+            'axisName': {'formatter': '【{value}】', 'color': '#428BD4'},
             'splitArea': {
               'areaStyle': {
                 'color': ['#77EADF', '#26C3BE', '#64AFE9', '#428BD4'],
@@ -41,14 +35,10 @@ class CustomizedRadarChart extends StatelessWidget {
               },
             },
             'axisLine': {
-              'lineStyle': {
-                'color': 'rgba(211, 253, 250, 0.8)',
-              },
+              'lineStyle': {'color': 'rgba(211, 253, 250, 0.8)'},
             },
             'splitLine': {
-              'lineStyle': {
-                'color': 'rgba(211, 253, 250, 0.8)',
-              },
+              'lineStyle': {'color': 'rgba(211, 253, 250, 0.8)'},
             },
           },
           {
@@ -74,9 +64,7 @@ class CustomizedRadarChart extends StatelessWidget {
           {
             'type': 'radar',
             'emphasis': {
-              'lineStyle': {
-                'width': 4,
-              },
+              'lineStyle': {'width': 4},
             },
             'data': [
               {
@@ -86,9 +74,7 @@ class CustomizedRadarChart extends StatelessWidget {
               {
                 'value': [60, 5, 0.3, -100, 1500],
                 'name': 'Data B',
-                'areaStyle': {
-                  'color': 'rgba(255, 228, 52, 0.6)',
-                },
+                'areaStyle': {'color': 'rgba(255, 228, 52, 0.6)'},
               },
             ],
           },
@@ -101,12 +87,8 @@ class CustomizedRadarChart extends StatelessWidget {
                 'name': 'Data C',
                 'symbol': 'rect',
                 'symbolSize': 12,
-                'lineStyle': {
-                  'type': 'dashed',
-                },
-                'label': {
-                  'show': true,
-                },
+                'lineStyle': {'type': 'dashed'},
+                'label': {'show': true},
               },
               {
                 'value': [100, 93, 50, 90, 70, 60],
@@ -118,14 +100,8 @@ class CustomizedRadarChart extends StatelessWidget {
                     'y': 0.6,
                     'r': 1,
                     'colorStops': [
-                      {
-                        'color': 'rgba(255, 145, 124, 0.1)',
-                        'offset': 0,
-                      },
-                      {
-                        'color': 'rgba(255, 145, 124, 0.9)',
-                        'offset': 1,
-                      },
+                      {'color': 'rgba(255, 145, 124, 0.1)', 'offset': 0},
+                      {'color': 'rgba(255, 145, 124, 0.9)', 'offset': 1},
                     ],
                   },
                 },

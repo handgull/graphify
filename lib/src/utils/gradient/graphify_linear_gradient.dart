@@ -1,7 +1,8 @@
 import 'package:graphify/src/utils/gradient/graphify_gradient.dart';
 
+/// A linear gradient from (x, y) to (x2, y2); left to right by default.
 class GraphifyLinearGradient extends GraphifyGradient {
-
+  /// Creates a linear gradient.
   const GraphifyLinearGradient({
     this.x = 0,
     this.y = 0,
@@ -15,9 +16,16 @@ class GraphifyLinearGradient extends GraphifyGradient {
   @override
   String get type => 'linear';
 
+  /// Start x.
   final num x;
+
+  /// Start y.
   final num y;
+
+  /// End x.
   final num x2;
+
+  /// End y.
   final num y2;
 
   @override
@@ -30,5 +38,4 @@ class GraphifyLinearGradient extends GraphifyGradient {
       'y2': y2,
     };
   }
-
 }

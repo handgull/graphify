@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:graphify/graphify.dart';
 
@@ -10,13 +9,12 @@ class ShangHaiIndex extends StatefulWidget {
 }
 
 class _ShangHaiIndexState extends State<ShangHaiIndex> {
-
   static const upColor = '#ec0000';
   static const upBorderColor = '#8A0000';
   static const downColor = '#00da3c';
   static const downBorderColor = '#008F28';
 
-  late final data0 = splitData([
+  late final Map<String, dynamic> data0 = splitData([
     ['2013/1/24', 2320.26, 2320.26, 2287.3, 2362.94],
     ['2013/1/25', 2300, 2291.3, 2288.26, 2308.38],
     ['2013/1/28', 2295.35, 2346.5, 2295.35, 2346.92],
@@ -104,7 +102,7 @@ class _ShangHaiIndexState extends State<ShangHaiIndex> {
     ['2013/6/5', 2270.71, 2270.93, 2260.87, 2276.86],
     ['2013/6/6', 2264.43, 2242.11, 2240.07, 2266.69],
     ['2013/6/7', 2242.26, 2210.9, 2205.07, 2250.63],
-    ['2013/6/13', 2190.1, 2148.35, 2126.22, 2190.1]
+    ['2013/6/13', 2190.1, 2148.35, 2126.22, 2190.1],
   ]);
 
   @override
@@ -112,230 +110,169 @@ class _ShangHaiIndexState extends State<ShangHaiIndex> {
     return GraphifyView(
       controller: GraphifyController(),
       initialOptions: {
-        "title": const {
-          "text": "上证指数",
-          "left": 0
+        'title': const {'text': '上证指数', 'left': 0},
+        'tooltip': const {
+          'trigger': 'axis',
+          'axisPointer': {'type': 'cross'},
         },
-        "tooltip": const {
-          "trigger": "axis",
-          "axisPointer": {
-            "type": "cross"
-          }
+        'legend': const {
+          'data': ['日K', 'MA5', 'MA10', 'MA20', 'MA30'],
         },
-        "legend": const {
-          "data": [
-            "日K",
-            "MA5",
-            "MA10",
-            "MA20",
-            "MA30"
-          ]
+        'grid': const {'left': '10%', 'right': '10%', 'bottom': '15%'},
+        'xAxis': const {
+          'type': 'category',
+          'data': <dynamic>[],
+          'boundaryGap': false,
+          'axisLine': {'onZero': false},
+          'splitLine': {'show': false},
+          'min': 'dataMin',
+          'max': 'dataMax',
         },
-        "grid": const {
-          "left": "10%",
-          "right": "10%",
-          "bottom": "15%"
+        'yAxis': const {
+          'scale': true,
+          'splitArea': {'show': true},
         },
-        "xAxis": const {
-          "type": "category",
-          "data": [],
-          "boundaryGap": false,
-          "axisLine": {
-            "onZero": false
-          },
-          "splitLine": {
-            "show": false
-          },
-          "min": "dataMin",
-          "max": "dataMax"
-        },
-        "yAxis": const {
-          "scale": true,
-          "splitArea": {
-            "show": true
-          }
-        },
-        "dataZoom": const [
+        'dataZoom': const [
+          {'type': 'inside', 'start': 50, 'end': 100},
           {
-            "type": "inside",
-            "start": 50,
-            "end": 100
+            'show': true,
+            'type': 'slider',
+            'top': '90%',
+            'start': 50,
+            'end': 100,
           },
-          {
-            "show": true,
-            "type": "slider",
-            "top": "90%",
-            "start": 50,
-            "end": 100
-          }
         ],
-        "series": [
+        'series': [
           {
-            "name": "日K",
-            "type": "candlestick",
-            "data": data0['values'],
-            "itemStyle": const {
-              "color": upColor,
-              "color0": downColor,
-              "borderColor": upBorderColor,
-              "borderColor0": downBorderColor
+            'name': '日K',
+            'type': 'candlestick',
+            'data': data0['values'],
+            'itemStyle': const {
+              'color': upColor,
+              'color0': downColor,
+              'borderColor': upBorderColor,
+              'borderColor0': downBorderColor,
             },
-            "markPoint": const {
-              "label": {},
-              "data": [
+            'markPoint': const {
+              'label': <String, dynamic>{},
+              'data': [
                 {
-                  "name": "Mark",
-                  "coord": [
-                    "2013/5/31",
-                    2300
-                  ],
-                  "value": 2300,
-                  "itemStyle": {
-                    "color": "rgb(41,60,85)"
-                  }
+                  'name': 'Mark',
+                  'coord': ['2013/5/31', 2300],
+                  'value': 2300,
+                  'itemStyle': {'color': 'rgb(41,60,85)'},
                 },
+                {'name': 'highest value', 'type': 'max', 'valueDim': 'highest'},
+                {'name': 'lowest value', 'type': 'min', 'valueDim': 'lowest'},
                 {
-                  "name": "highest value",
-                  "type": "max",
-                  "valueDim": "highest"
+                  'name': 'average value on close',
+                  'type': 'average',
+                  'valueDim': 'close',
                 },
-                {
-                  "name": "lowest value",
-                  "type": "min",
-                  "valueDim": "lowest"
-                },
-                {
-                  "name": "average value on close",
-                  "type": "average",
-                  "valueDim": "close"
-                }
-              ]
-            },
-            "markLine": const {
-              "symbol": [
-                "none",
-                "none"
               ],
-              "data": [
+            },
+            'markLine': const {
+              'symbol': ['none', 'none'],
+              'data': [
                 [
                   {
-                    "name": "from lowest to highest",
-                    "type": "min",
-                    "valueDim": "lowest",
-                    "symbol": "circle",
-                    "symbolSize": 10,
-                    "label": {
-                      "show": false
+                    'name': 'from lowest to highest',
+                    'type': 'min',
+                    'valueDim': 'lowest',
+                    'symbol': 'circle',
+                    'symbolSize': 10,
+                    'label': {'show': false},
+                    'emphasis': {
+                      'label': {'show': false},
                     },
-                    "emphasis": {
-                      "label": {
-                        "show": false
-                      }
-                    }
                   },
                   {
-                    "type": "max",
-                    "valueDim": "highest",
-                    "symbol": "circle",
-                    "symbolSize": 10,
-                    "label": {
-                      "show": false
+                    'type': 'max',
+                    'valueDim': 'highest',
+                    'symbol': 'circle',
+                    'symbolSize': 10,
+                    'label': {'show': false},
+                    'emphasis': {
+                      'label': {'show': false},
                     },
-                    "emphasis": {
-                      "label": {
-                        "show": false
-                      }
-                    }
-                  }
+                  },
                 ],
                 {
-                  "name": "min line on close",
-                  "type": "min",
-                  "valueDim": "close"
+                  'name': 'min line on close',
+                  'type': 'min',
+                  'valueDim': 'close',
                 },
                 {
-                  "name": "max line on close",
-                  "type": "max",
-                  "valueDim": "close"
-                }
-              ]
-            }
+                  'name': 'max line on close',
+                  'type': 'max',
+                  'valueDim': 'close',
+                },
+              ],
+            },
           },
           {
-            "name": "MA5",
-            "type": "line",
-            "data": calculateMA(5),
-            "smooth": true,
-            "lineStyle": const {
-              "opacity": 0.5
-            }
+            'name': 'MA5',
+            'type': 'line',
+            'data': calculateMA(5),
+            'smooth': true,
+            'lineStyle': const {'opacity': 0.5},
           },
           {
-            "name": "MA10",
-            "type": "line",
-            "data": calculateMA(10),
-            "smooth": true,
-            "lineStyle": const {
-              "opacity": 0.5
-            }
+            'name': 'MA10',
+            'type': 'line',
+            'data': calculateMA(10),
+            'smooth': true,
+            'lineStyle': const {'opacity': 0.5},
           },
           {
-            "name": "MA20",
-            "type": "line",
-            "data": calculateMA(20),
-            "smooth": true,
-            "lineStyle": const {
-              "opacity": 0.5
-            }
+            'name': 'MA20',
+            'type': 'line',
+            'data': calculateMA(20),
+            'smooth': true,
+            'lineStyle': const {'opacity': 0.5},
           },
           {
-            "name": "MA30",
-            "type": "line",
-            "data": calculateMA(30),
-            "smooth": true,
-            "lineStyle": const {
-              "opacity": 0.5
-            }
-          }
-        ]
+            'name': 'MA30',
+            'type': 'line',
+            'data': calculateMA(30),
+            'smooth': true,
+            'lineStyle': const {'opacity': 0.5},
+          },
+        ],
       },
     );
   }
 
   Map<String, dynamic> splitData(List<List<dynamic>> rawData) {
-    List<dynamic> categoryData = [];
-    List<List<dynamic>> values = [];
+    final categoryData = <dynamic>[];
+    final values = <List<dynamic>>[];
 
-    for (var row in rawData) {
-      var category = row.removeAt(0);
+    for (final row in rawData) {
+      final category = row.removeAt(0);
       categoryData.add(category);
       values.add(row);
     }
 
-    return {
-      'categoryData': categoryData,
-      'values': values,
-    };
+    return {'categoryData': categoryData, 'values': values};
   }
 
   List<dynamic> calculateMA(int dayCount) {
-    List<dynamic> result = [];
-    List<List<dynamic>> values = data0['values'];
+    final result = <dynamic>[];
+    final values = data0['values'] as List<List<dynamic>>;
 
-    for (int i = 0; i < values.length; i++) {
+    for (var i = 0; i < values.length; i++) {
       if (i < dayCount) {
         result.add('-');
         continue;
       }
 
       double sum = 0;
-      for (int j = 0; j < dayCount; j++) {
-        sum += values[i - j][1];
+      for (var j = 0; j < dayCount; j++) {
+        sum += values[i - j][1] as num;
       }
       result.add(sum / dayCount);
     }
 
     return result;
   }
-
 }

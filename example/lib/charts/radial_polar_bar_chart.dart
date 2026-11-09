@@ -12,7 +12,6 @@ class RadialPolarBarChart extends StatefulWidget {
 }
 
 class _RadialPolarBarChartState extends State<RadialPolarBarChart> {
-
   final controller = GraphifyController();
   Timer? timer;
 
@@ -20,15 +19,14 @@ class _RadialPolarBarChartState extends State<RadialPolarBarChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      controller.update({
-        "series": [
-          {
-            "data": Helper.randomData(4, 4),
-          }
-        ]
-      });
+      unawaited(
+        controller.update({
+          'series': [
+            {'data': Helper.randomData(4, 4)},
+          ],
+        }),
+      );
     });
-
   }
 
   @override
@@ -36,34 +34,30 @@ class _RadialPolarBarChartState extends State<RadialPolarBarChart> {
     return GraphifyView(
       controller: controller,
       initialOptions: const {
-        "title": [
-          {
-            "text": "Radial Polar Bar Label Position (middle)"
-          }
+        'title': [
+          {'text': 'Radial Polar Bar Label Position (middle)'},
         ],
-        "polar": {
-          "radius": [30, "80%"]
+        'polar': {
+          'radius': [30, '80%'],
         },
-        "radiusAxis": {
-          "max": 4
+        'radiusAxis': {'max': 4},
+        'angleAxis': {
+          'type': 'category',
+          'data': ['a', 'b', 'c', 'd'],
+          'startAngle': 75,
         },
-        "angleAxis": {
-          "type": "category",
-          "data": ["a", "b", "c", "d"],
-          "startAngle": 75
+        'tooltip': <String, dynamic>{},
+        'series': {
+          'type': 'bar',
+          'data': [2, 1.2, 2.4, 3.6],
+          'coordinateSystem': 'polar',
+          'label': {
+            'show': true,
+            'position': 'middle',
+            'formatter': '{b}: {c}',
+          },
         },
-        "tooltip": {},
-        "series": {
-          "type": "bar",
-          "data": [2, 1.2, 2.4, 3.6],
-          "coordinateSystem": "polar",
-          "label": {
-            "show": true,
-            "position": "middle",
-            "formatter": "{b}: {c}"
-          }
-        },
-        "animation": false
+        'animation': false,
       },
     );
   }
@@ -74,5 +68,4 @@ class _RadialPolarBarChartState extends State<RadialPolarBarChart> {
     controller.dispose();
     super.dispose();
   }
-
 }

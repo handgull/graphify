@@ -27,3 +27,11 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
+
+# Agents
+.claude/*
+!.claude/skills/
+!.claude/settings.json
+.flutter-plugins
+.flutter-plugins-dependencies
+coverage/

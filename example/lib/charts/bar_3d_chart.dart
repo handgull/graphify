@@ -12,7 +12,6 @@ class Bar3dChart extends StatefulWidget {
 }
 
 class _Bar3dChartState extends State<Bar3dChart> {
-
   final controller = GraphifyController();
   Timer? timer;
 
@@ -20,15 +19,16 @@ class _Bar3dChartState extends State<Bar3dChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      controller.update({
-        "series": [
-          {
-            "data": Helper.randomData(10, 10).map((e) => [e, e, e]).toList(),
-          }
-        ]
-      });
+      unawaited(
+        controller.update({
+          'series': [
+            {
+              'data': Helper.randomData(10, 10).map((e) => [e, e, e]).toList(),
+            },
+          ],
+        }),
+      );
     });
-
   }
 
   @override
@@ -36,61 +36,45 @@ class _Bar3dChartState extends State<Bar3dChart> {
     return GraphifyView(
       controller: controller,
       initialOptions: const {
-        "visualMap": {
-          "show": false,
-          "min": 2,
-          "max": 6,
-          "inRange": {
-            "color": [
-              "#313695",
-              "#4575b4",
-              "#74add1",
-              "#abd9e9",
-              "#e0f3f8",
-              "#ffffbf",
-              "#fee090",
-              "#fdae61",
-              "#f46d43",
-              "#d73027",
-              "#a50026"
-            ]
-          }
-        },
-        "xAxis3D": {
-          "type": "value"
-        },
-        "yAxis3D": {
-          "type": "value"
-        },
-        "zAxis3D": {
-          "type": "value",
-          "max": 10,
-          "min": 0
-        },
-        "grid3D": {
-          "axisLine": {
-            "lineStyle": {
-              "color": "#fff"
-            }
+        'visualMap': {
+          'show': false,
+          'min': 2,
+          'max': 6,
+          'inRange': {
+            'color': [
+              '#313695',
+              '#4575b4',
+              '#74add1',
+              '#abd9e9',
+              '#e0f3f8',
+              '#ffffbf',
+              '#fee090',
+              '#fdae61',
+              '#f46d43',
+              '#d73027',
+              '#a50026',
+            ],
           },
-          "axisPointer": {
-            "lineStyle": {
-              "color": "#fff"
-            }
-          },
-          "viewControl": {},
-          "light": {
-            "main": {
-              "shadow": true,
-              "quality": "ultra",
-              "intensity": 1.5
-            }
-          }
         },
-        "series": [
+        'xAxis3D': {'type': 'value'},
+        'yAxis3D': {'type': 'value'},
+        'zAxis3D': {'type': 'value', 'max': 10, 'min': 0},
+        'grid3D': {
+          'axisLine': {
+            'lineStyle': {'color': '#fff'},
+          },
+          'axisPointer': {
+            'lineStyle': {'color': '#fff'},
+          },
+          'viewControl': <String, dynamic>{},
+          'light': {
+            'main': {'shadow': true, 'quality': 'ultra', 'intensity': 1.5},
+          },
+        },
+        'series': [
           {
-            "type": "bar3D",
-            "data": [
+            'type': 'bar3D',
+            'data': [
               [1, 1, 1],
               [2, 2, 2],
               [3, 3, 3],
@@ -100,11 +84,11 @@ class _Bar3dChartState extends State<Bar3dChart> {
               [7, 7, 7],
               [8, 8, 8],
               [9, 9, 9],
-              [10, 10, 10]
+              [10, 10, 10],
             ],
-            "shading": "lambert"
-          }
-        ]
+            'shading': 'lambert',
+          },
+        ],
       },
     );
   }
@@ -115,5 +99,4 @@ class _Bar3dChartState extends State<Bar3dChart> {
     controller.dispose();
     super.dispose();
   }
-
 }

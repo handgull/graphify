@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:graphify_example/charts/bar_3d_chart.dart';
 import 'package:graphify_example/charts/bar_chart_with_negative_values.dart';
@@ -5,6 +7,7 @@ import 'package:graphify_example/charts/basic_area_chart.dart';
 import 'package:graphify_example/charts/basic_bar_chart.dart';
 import 'package:graphify_example/charts/basic_line_chart.dart';
 import 'package:graphify_example/charts/candle_stick_brush.dart';
+import 'package:graphify_example/charts/chart_click.dart';
 import 'package:graphify_example/charts/customized_radar_chart.dart';
 import 'package:graphify_example/charts/graph_webkit_dep.dart';
 import 'package:graphify_example/charts/heatmap_discrete_mapping_of_color.dart';
@@ -27,8 +30,9 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  static const charts = {
-    "Basic Line Chart": BasicLineChart(),
+  static const Map<String, Widget> charts = {
+    'Chart Click': ChartClick(),
+    'Basic Line Chart': BasicLineChart(),
     'Basic Area Chart': BasicAreaChart(),
     'Stacked Area Chart': StackedAreaChart(),
     'Large Area Chart': LargeAreaChart(),
@@ -54,82 +58,82 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Graphify Examples',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.dark,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, brightness: Brightness.dark),
       home: SafeArea(
-        child: Builder(builder: (context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                "Graphify Examples",
+        child: Builder(
+          builder: (context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Graphify Examples'),
+                centerTitle: true,
               ),
-              centerTitle: true,
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  for (final entry in charts.entries)
-                    ListTile(
-                      title: Text(entry.key),
-                      onTap: () => _showChart(context, entry.key, entry.value),
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    for (final entry in charts.entries)
+                      ListTile(
+                        title: Text(entry.key),
+                        onTap: () =>
+                            _showChart(context, entry.key, entry.value),
+                      ),
+                  ],
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  unawaited(
+                    showModalBottomSheet<void>(
+                      context: context,
+                      useSafeArea: true,
+                      builder: (context) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              title: const Text('Open Source Code'),
+                              onTap: () => unawaited(
+                                launchUrlString(
+                                  'https://github.com/warioddly/graphify',
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              title: const Text('Pub.dev'),
+                              onTap: () => unawaited(
+                                launchUrlString(
+                                  'https://pub.dev/packages/graphify',
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                ],
+                  );
+                },
+                child: const Icon(Icons.code),
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  useSafeArea: true,
-                  builder: (context) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListTile(
-                          title: const Text("Open Source Code"),
-                          onTap: () {
-                            launchUrlString("https://github.com/warioddly/graphify");
-                          },
-                        ),
-                        ListTile(
-                          title: const Text("Pub.dev"),
-                          onTap: () {
-                            launchUrlString("https://pub.dev/packages/graphify");
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: const Icon(Icons.code),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }
 
-  void _showChart(BuildContext context, String title, Widget chart) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      enableDrag: false,
-      constraints: BoxConstraints(
-        minWidth: MediaQuery.of(context).size.width,
-      ),
-      builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-            centerTitle: true,
+  void _showChart(BuildContext context, String title, Widget chart) =>
+      unawaited(
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          useSafeArea: true,
+          enableDrag: false,
+          constraints: BoxConstraints(
+            minWidth: MediaQuery.of(context).size.width,
           ),
-          body: chart,
-        );
-      },
-    );
-  }
+          builder: (context) => Scaffold(
+            appBar: AppBar(title: Text(title), centerTitle: true),
+            body: chart,
+          ),
+        ),
+      );
 }

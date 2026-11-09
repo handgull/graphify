@@ -12,7 +12,6 @@ class BasicBarChart extends StatefulWidget {
 }
 
 class _BasicBarChartState extends State<BasicBarChart> {
-
   final controller = GraphifyController();
   var _chartCreated = false;
   Timer? timer;
@@ -21,63 +20,58 @@ class _BasicBarChartState extends State<BasicBarChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      controller.update({
-        "series": [
-          {
-            "data": Helper.randomData(7, 300),
-          }
-        ]
-      });
+      unawaited(
+        controller.update({
+          'series': [
+            {'data': Helper.randomData(7, 300)},
+          ],
+        }),
+      );
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-
         GraphifyView(
-            controller: controller,
-            onCreated: () async {
-              await Future.delayed(const Duration(milliseconds: 400));
-              setState(() {
-                _chartCreated = true;
-              });
+          controller: controller,
+          onCreated: () async {
+            await Future<void>.delayed(const Duration(milliseconds: 400));
+            setState(() {
+              _chartCreated = true;
+            });
+          },
+          initialOptions: const {
+            'backgroundColor': 'transparent',
+            'xAxis': {
+              'type': 'category',
+              'data': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             },
-            initialOptions: const {
-              'backgroundColor': 'transparent',
-              "xAxis": {
-                "type": "category",
-                "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            'yAxis': {'type': 'value'},
+            'series': [
+              {
+                'data': [120, 200, 150, 80, 70, 110, 130],
+                'type': 'bar',
               },
-              "yAxis": {
-                "type": "value"
-              },
-              "series": [
-                {
-                  "data": [120, 200, 150, 80, 70, 110, 130],
-                  "type": "bar"
-                }
-              ],
-            },
-          ),
+            ],
+          },
+        ),
 
         if (!_chartCreated)
-          Positioned.fill(
-            child: Container(
+          const Positioned.fill(
+            child: ColoredBox(
               color: Colors.white,
-              child: const Center(
+              child: Center(
                 child: SizedBox.square(
                   dimension: 100,
                   child: CircularProgressIndicator.adaptive(
-                      backgroundColor: Colors.green,
+                    backgroundColor: Colors.green,
                   ),
-                )
-              )
+                ),
+              ),
             ),
           ),
-
       ],
     );
   }
@@ -88,5 +82,4 @@ class _BasicBarChartState extends State<BasicBarChart> {
     controller.dispose();
     super.dispose();
   }
-
 }

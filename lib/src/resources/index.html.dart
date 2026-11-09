@@ -1,8 +1,19 @@
+// The page must start with its doctype.
 // ignore_for_file: leading_newlines_in_multiline_strings
 
-import 'package:graphify/src/controller/js_methods.dart';
+import 'dart:convert';
 
-String indexHtml({ required String id, String? dependencies}) {
+import 'package:graphify/src/controller/js_methods.dart';
+import 'package:graphify/src/view/graphify_renderer.dart';
+
+/// The page hosting the chart [id], drawn with [theme] and [renderer], with
+/// [dependencies] inlined if given.
+String indexHtml({
+  required String id,
+  String? dependencies,
+  Object? theme = 'dark',
+  GraphifyRenderer renderer = GraphifyRenderer.canvas,
+}) {
   return '''<!DOCTYPE html>
     <html>
     <head>
@@ -27,9 +38,8 @@ String indexHtml({ required String id, String? dependencies}) {
       <script>
           const dom = document.getElementById('chart');
           const context = (window.parent && window.parent.window) || window || {};
-          const chart = context.echarts.init(dom, 'dark', { renderer: 'canvas', useDirtyRect: false });
+          const chart = context.echarts.init(dom, ${jsonEncode(theme)}, { renderer: '${renderer.name}', useDirtyRect: false });
           context.${JsMethods.initChart}('$id', chart, {});
-          context.${JsMethods.updateChart}('$id', {});
           window.addEventListener('resize', chart.resize);
       </script>
     </body>

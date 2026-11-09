@@ -93,7 +93,21 @@ class _BasicBarChartState extends State<BasicBarChart> {
 ```
 
 ## Parameters and Settings
-A string containing the [JSON configuration](https://echarts.apache.org/en/option.html#title) for the chart, based on the Apache ECharts documentation.
+`initialOptions` and `controller.update(...)` take the chart's [ECharts options](https://echarts.apache.org/en/option.html#title) as a JSON-like map. Updates sent before the chart has loaded wait for it and apply in order.
+
+- `theme`: a registered theme name (`'dark'`, the default, or `'default'`), a theme object, or `null`.
+- `renderer`: `GraphifyRenderer.canvas` (the default) or `GraphifyRenderer.svg`.
+- `echartsGl`: loads echarts-gl (3D and GL components and series). Charts whose `initialOptions` use them load it on their own; set it when they only arrive later, through `controller.update(...)`.
+
+### Chart events
+`controller.chartClickedEvent` streams every click, with the fields ECharts reports (`componentType`, `seriesName`, `name`, `dataIndex`, `value`...):
+
+```dart
+controller.chartClickedEvent.listen((event) => print(event['name']));
+```
+
+### Platforms
+Android, iOS, macOS and web. Graphify renders through [`webview_flutter`](https://pub.dev/packages/webview_flutter), which has no Windows or Linux implementation: an app targeting those can add one that implements its platform interface.
 
 ## Documentation and Support
 Refer to the Apache ECharts Documentation for detailed configuration options and features.

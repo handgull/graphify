@@ -12,7 +12,6 @@ class BasicAreaChart extends StatefulWidget {
 }
 
 class _BasicAreaChartState extends State<BasicAreaChart> {
-
   final controller = GraphifyController();
   Timer? timer;
 
@@ -20,15 +19,14 @@ class _BasicAreaChartState extends State<BasicAreaChart> {
   void initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 2), (_) {
-      controller.update({
-        "series": [
-          {
-            "data": Helper.randomData(7, 300),
-          }
-        ]
-      });
+      unawaited(
+        controller.update({
+          'series': [
+            {'data': Helper.randomData(7, 300)},
+          ],
+        }),
+      );
     });
-
   }
 
   @override
@@ -36,21 +34,17 @@ class _BasicAreaChartState extends State<BasicAreaChart> {
     return GraphifyView(
       controller: controller,
       initialOptions: {
-        "xAxis": const {
-          "type": "category",
-          "boundaryGap": false,
-          "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        'xAxis': const {
+          'type': 'category',
+          'boundaryGap': false,
+          'data': ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         },
-        "yAxis": const {
-          "type": "value"
-        },
-        'tooltip': const {
-          'trigger': 'axis',
-        },
-        "series": [
+        'yAxis': const {'type': 'value'},
+        'tooltip': const {'trigger': 'axis'},
+        'series': [
           {
-            "data": const [150, 230, 224, 218, 135, 147, 260],
-            "type": "line",
+            'data': const [150, 230, 224, 218, 135, 147, 260],
+            'type': 'line',
             'smooth': true,
             'areaStyle': {
               'color': const GraphifyLinearGradient(
@@ -59,16 +53,10 @@ class _BasicAreaChartState extends State<BasicAreaChart> {
                 x2: 0.9,
                 y2: 0.1,
                 colorStops: [
-                  GraphifyGradientColorStop(
-                    color: Colors.green,
-                    offset: 1,
-                  ),
-                   GraphifyGradientColorStop(
-                    color: Colors.red,
-                    offset: .4,
-                  ),
+                  GraphifyGradientColorStop(color: Colors.green, offset: 1),
+                  GraphifyGradientColorStop(color: Colors.red, offset: .4),
                 ],
-              ).toJson()
+              ).toJson(),
             },
             // 'areaStyle': {
             //   'color': {
@@ -88,8 +76,8 @@ class _BasicAreaChartState extends State<BasicAreaChart> {
             //     ],
             //   },
             // },
-          }
-        ]
+          },
+        ],
       },
     );
   }
@@ -100,5 +88,4 @@ class _BasicAreaChartState extends State<BasicAreaChart> {
     controller.dispose();
     super.dispose();
   }
-
 }

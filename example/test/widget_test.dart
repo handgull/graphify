@@ -1,27 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:graphify_example/main.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('[MyApp]', () {
+    testWidgets('lists every example chart', (tester) async {
+      await tester.pumpWidget(const MyApp());
 
-    // Verify that platform version is retrieved.
-    expect(
-      find.byWidgetPredicate(
-        (Widget widget) => widget is Text &&
-                           widget.data!.startsWith('Running on:'),
-      ),
-      findsOneWidget,
-    );
+      for (final title in MyApp.charts.keys) {
+        await tester.scrollUntilVisible(find.text(title), 100);
+        expect(find.text(title), findsOneWidget);
+      }
+    });
+
+    testWidgets('links the source code and pub.dev', (tester) async {
+      await tester.pumpWidget(const MyApp());
+
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Open Source Code'), findsOneWidget);
+      expect(find.text('Pub.dev'), findsOneWidget);
+    });
   });
 }

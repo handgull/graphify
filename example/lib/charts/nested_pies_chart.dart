@@ -9,39 +9,39 @@ class NestedPiesChart extends StatelessWidget {
     return GraphifyView(
       controller: GraphifyController(),
       initialOptions: const {
-        "backgroundColor": 'transparent',
-        "tooltip": {"trigger": "item", "formatter": "{a} <br/>{b}: {c} ({d}%)"},
-        "legend": {
-          "data": [
-            "Direct",
-            "Marketing",
-            "Search Engine",
-            "Email",
-            "Union Ads",
-            "Video Ads",
-            "Baidu",
-            "Google",
-            "Bing",
-            "Others"
-          ]
+        'backgroundColor': 'transparent',
+        'tooltip': {'trigger': 'item', 'formatter': '{a} <br/>{b}: {c} ({d}%)'},
+        'legend': {
+          'data': [
+            'Direct',
+            'Marketing',
+            'Search Engine',
+            'Email',
+            'Union Ads',
+            'Video Ads',
+            'Baidu',
+            'Google',
+            'Bing',
+            'Others',
+          ],
         },
-        "series": [
+        'series': [
           {
-            "name": "Access From",
-            "type": "pie",
-            "selectedMode": "single",
-            "radius": [0, "30%"],
-            "label": {"position": "inner", "fontSize": 14},
-            "labelLine": {"show": false},
-            "data": [
-              {"value": 1548, "name": "Search Engine"},
-              {"value": 775, "name": "Direct"},
-              {"value": 679, "name": "Marketing", "selected": true}
-            ]
+            'name': 'Access From',
+            'type': 'pie',
+            'selectedMode': 'single',
+            'radius': [0, '30%'],
+            'label': {'position': 'inner', 'fontSize': 14},
+            'labelLine': {'show': false},
+            'data': [
+              {'value': 1548, 'name': 'Search Engine'},
+              {'value': 775, 'name': 'Direct'},
+              {'value': 679, 'name': 'Marketing', 'selected': true},
+            ],
           },
           {
-            "name": "Access From",
-            "type": 'pie',
+            'name': 'Access From',
+            'type': 'pie',
             'radius': ['45%', '60%'],
             'labelLine': {'length': 30},
             'label': {
@@ -56,21 +56,21 @@ class NestedPiesChart extends StatelessWidget {
                   'borderColor': '#8C8D8E',
                   'width': '100%',
                   'borderWidth': 1,
-                  'height': 0
+                  'height': 0,
                 },
                 'b': {
                   'color': '#4C5058',
                   'fontSize': 14,
                   'fontWeight': 'bold',
-                  'lineHeight': 33
+                  'lineHeight': 33,
                 },
                 'per': {
                   'color': '#fff',
                   'backgroundColor': '#4C5058',
                   'padding': [3, 4],
-                  'borderRadius': 4
-                }
-              }
+                  'borderRadius': 4,
+                },
+              },
             },
             'data': [
               {'value': 1048, 'name': 'Baidu'},
@@ -80,10 +80,10 @@ class NestedPiesChart extends StatelessWidget {
               {'value': 234, 'name': 'Union Ads'},
               {'value': 147, 'name': 'Bing'},
               {'value': 135, 'name': 'Video Ads'},
-              {'value': 102, 'name': 'Others'}
-            ]
-          }
-        ]
+              {'value': 102, 'name': 'Others'},
+            ],
+          },
+        ],
       },
     );
   }

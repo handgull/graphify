@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:graphify/graphify.dart';
 
@@ -16,9 +15,7 @@ class ProportionOfBrowsers extends StatelessWidget {
           'top': 10,
           'left': 10,
         },
-        'tooltip': const {
-          'trigger': 'item',
-        },
+        'tooltip': const {'trigger': 'item'},
         'legend': {
           'type': 'scroll',
           'bottom': 10,
@@ -40,17 +37,13 @@ class ProportionOfBrowsers extends StatelessWidget {
           ],
         },
         'series': List.generate(28, (index) {
-          int i = index + 1;
+          final i = index + 1;
           return {
             'type': 'radar',
             'symbol': 'none',
-            'lineStyle': {
-              'width': 1,
-            },
+            'lineStyle': {'width': 1},
             'emphasis': {
-              'areaStyle': {
-                'color': 'rgba(0,250,0,0.3)',
-              },
+              'areaStyle': {'color': 'rgba(0,250,0,0.3)'},
             },
             'data': [
               {
@@ -62,7 +55,7 @@ class ProportionOfBrowsers extends StatelessWidget {
                   (i * i) / 2,
                 ],
                 'name': (i + 2000).toString(),
-              }
+              },
             ],
           };
         }),

@@ -1,20 +1,24 @@
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:graphify/graphify.dart';
-import 'dart:math';
 
 class _Grad {
+  _Grad(this.x, this.y, this.z);
   final double x;
   final double y;
   final double z;
 
-  _Grad(this.x, this.y, this.z);
-
   double dot2(double x, double y) => this.x * x + this.y * y;
-  double dot3(double x, double y, double z) => this.x * x + this.y * y + this.z * z;
+  double dot3(double x, double y, double z) =>
+      this.x * x + this.y * y + this.z * z;
 }
 
 class _NoiseHelper {
+  _NoiseHelper() {
+    // Инициализируем таблицы с начальным seed = 0.
+    seed(0);
+  }
   final List<_Grad> grad3 = [
     _Grad(1, 1, 0),
     _Grad(-1, 1, 0),
@@ -31,51 +35,279 @@ class _NoiseHelper {
   ];
 
   final List<int> p = [
-    151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140,
-    36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120,
-    234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33,
-    88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175, 74, 165, 71,
-    134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122, 60, 211, 133,
-    230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54, 65, 25, 63, 161,
-    1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169, 200, 196, 135, 130,
-    116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64, 52, 217, 226, 250,
-    124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212, 207, 206, 59, 227,
-    47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213, 119, 248, 152, 2, 44,
-    154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9, 129, 22, 39, 253, 19, 98,
-    108, 110, 79, 113, 224, 232, 178, 185, 112, 104, 218, 246, 97, 228, 251, 34,
-    242, 193, 238, 210, 144, 12, 191, 179, 162, 241, 81, 51, 145, 235, 249, 14,
-    239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121,
-    50, 45, 127, 4, 150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243,
-    141, 128, 195, 78, 66, 215, 61, 156, 180
+    151,
+    160,
+    137,
+    91,
+    90,
+    15,
+    131,
+    13,
+    201,
+    95,
+    96,
+    53,
+    194,
+    233,
+    7,
+    225,
+    140,
+    36,
+    103,
+    30,
+    69,
+    142,
+    8,
+    99,
+    37,
+    240,
+    21,
+    10,
+    23,
+    190,
+    6,
+    148,
+    247,
+    120,
+    234,
+    75,
+    0,
+    26,
+    197,
+    62,
+    94,
+    252,
+    219,
+    203,
+    117,
+    35,
+    11,
+    32,
+    57,
+    177,
+    33,
+    88,
+    237,
+    149,
+    56,
+    87,
+    174,
+    20,
+    125,
+    136,
+    171,
+    168,
+    68,
+    175,
+    74,
+    165,
+    71,
+    134,
+    139,
+    48,
+    27,
+    166,
+    77,
+    146,
+    158,
+    231,
+    83,
+    111,
+    229,
+    122,
+    60,
+    211,
+    133,
+    230,
+    220,
+    105,
+    92,
+    41,
+    55,
+    46,
+    245,
+    40,
+    244,
+    102,
+    143,
+    54,
+    65,
+    25,
+    63,
+    161,
+    1,
+    216,
+    80,
+    73,
+    209,
+    76,
+    132,
+    187,
+    208,
+    89,
+    18,
+    169,
+    200,
+    196,
+    135,
+    130,
+    116,
+    188,
+    159,
+    86,
+    164,
+    100,
+    109,
+    198,
+    173,
+    186,
+    3,
+    64,
+    52,
+    217,
+    226,
+    250,
+    124,
+    123,
+    5,
+    202,
+    38,
+    147,
+    118,
+    126,
+    255,
+    82,
+    85,
+    212,
+    207,
+    206,
+    59,
+    227,
+    47,
+    16,
+    58,
+    17,
+    182,
+    189,
+    28,
+    42,
+    223,
+    183,
+    170,
+    213,
+    119,
+    248,
+    152,
+    2,
+    44,
+    154,
+    163,
+    70,
+    221,
+    153,
+    101,
+    155,
+    167,
+    43,
+    172,
+    9,
+    129,
+    22,
+    39,
+    253,
+    19,
+    98,
+    108,
+    110,
+    79,
+    113,
+    224,
+    232,
+    178,
+    185,
+    112,
+    104,
+    218,
+    246,
+    97,
+    228,
+    251,
+    34,
+    242,
+    193,
+    238,
+    210,
+    144,
+    12,
+    191,
+    179,
+    162,
+    241,
+    81,
+    51,
+    145,
+    235,
+    249,
+    14,
+    239,
+    107,
+    49,
+    192,
+    214,
+    31,
+    181,
+    199,
+    106,
+    157,
+    184,
+    84,
+    204,
+    176,
+    115,
+    121,
+    50,
+    45,
+    127,
+    4,
+    150,
+    254,
+    138,
+    236,
+    205,
+    93,
+    222,
+    114,
+    67,
+    29,
+    24,
+    72,
+    243,
+    141,
+    128,
+    195,
+    78,
+    66,
+    215,
+    61,
+    156,
+    180,
   ];
 
   List<int> perm = List.filled(512, 0);
   List<_Grad> gradP = List.filled(512, _Grad(0, 0, 0));
 
-  _NoiseHelper() {
-    // Инициализируем таблицы с начальным seed = 0.
-    seed(0);
-  }
-
   /// Функция для установки seed.
-  void seed(dynamic seedVal) {
-    double s;
-    if (seedVal is double) {
-      s = seedVal;
-    } else if (seedVal is int) {
-      s = seedVal.toDouble();
-    } else {
-      throw Exception("Invalid seed type");
-    }
+  void seed(num seedVal) {
+    var s = seedVal.toDouble();
 
     if (s > 0 && s < 1) {
       s *= 65536;
     }
-    int intSeed = s.floor();
+    var intSeed = s.floor();
     if (intSeed < 256) {
       intSeed |= intSeed << 8;
     }
-    for (int i = 0; i < 256; i++) {
+    for (var i = 0; i < 256; i++) {
       int v;
       if ((i & 1) == 1) {
         v = p[i] ^ (intSeed & 255);
@@ -98,19 +330,19 @@ class _NoiseHelper {
   }
 
   /// 2D Perlin Noise
-  double perlin2(double x, double y) {
-    int X = x.floor();
-    int Y = y.floor();
-    x = x - X;
-    y = y - Y;
+  double perlin2(double xIn, double yIn) {
+    var X = xIn.floor();
+    var Y = yIn.floor();
+    final x = xIn - X;
+    final y = yIn - Y;
     X = X & 255;
     Y = Y & 255;
-    double n00 = gradP[X + perm[Y]].dot2(x, y);
-    double n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
-    double n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
-    double n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
-    double u = fade(x);
-    double v = fade(y);
+    final n00 = gradP[X + perm[Y]].dot2(x, y);
+    final n01 = gradP[X + perm[Y + 1]].dot2(x, y - 1);
+    final n10 = gradP[X + 1 + perm[Y]].dot2(x - 1, y);
+    final n11 = gradP[X + 1 + perm[Y + 1]].dot2(x - 1, y - 1);
+    final u = fade(x);
+    final v = fade(y);
     return lerp(lerp(n00, n10, u), lerp(n01, n11, u), v);
   }
 }
@@ -119,51 +351,42 @@ class HeatmapDiscreteMappingOfColor extends StatefulWidget {
   const HeatmapDiscreteMappingOfColor({super.key});
 
   @override
-  State<HeatmapDiscreteMappingOfColor> createState() => _HeatmapDiscreteMappingOfColorState();
+  State<HeatmapDiscreteMappingOfColor> createState() =>
+      _HeatmapDiscreteMappingOfColorState();
 }
 
-class _HeatmapDiscreteMappingOfColorState extends State<HeatmapDiscreteMappingOfColor> {
+class _HeatmapDiscreteMappingOfColorState
+    extends State<HeatmapDiscreteMappingOfColor> {
   @override
   Widget build(BuildContext context) {
+    final noise = _NoiseHelper()..seed(Random().nextDouble());
 
-    final noise = _NoiseHelper();
-    noise.seed(Random().nextDouble());
-
-    List<int> xData = [];
-    List<int> yData = [];
+    final xData = <int>[];
+    final yData = <int>[];
 
     List<List<double>> generateData(double theta, double min, double max) {
-      List<List<double>> data = [];
-      for (int i = 0; i <= 200; i++) {
-        for (int j = 0; j <= 100; j++) {
+      final data = <List<double>>[];
+      for (var i = 0; i <= 200; i++) {
+        for (var j = 0; j <= 100; j++) {
           // Вычисляем значение шума и сдвигаем его на 0.5
-          double value = noise.perlin2(i / 40.0, j / 20.0) + 0.5;
+          final value = noise.perlin2(i / 40.0, j / 20.0) + 0.5;
           data.add([i.toDouble(), j.toDouble(), value]);
         }
         xData.add(i);
       }
-      for (int j = 0; j < 100; j++) {
+      for (var j = 0; j < 100; j++) {
         yData.add(j);
       }
       return data;
     }
 
-    List<List<double>> data = generateData(2, -5, 5);
+    final data = generateData(2, -5, 5);
 
     final option = {
-      'tooltip': {},
-      'grid': {
-        'right': 140,
-        'left': 40,
-      },
-      'xAxis': {
-        'type': 'category',
-        'data': xData,
-      },
-      'yAxis': {
-        'type': 'category',
-        'data': yData,
-      },
+      'tooltip': <String, dynamic>{},
+      'grid': {'right': 140, 'left': 40},
+      'xAxis': {'type': 'category', 'data': xData},
+      'yAxis': {'type': 'category', 'data': yData},
       'visualMap': {
         'type': 'piecewise',
         'min': 0,
@@ -195,10 +418,7 @@ class _HeatmapDiscreteMappingOfColorState extends State<HeatmapDiscreteMappingOf
           'type': 'heatmap',
           'data': data,
           'emphasis': {
-            'itemStyle': {
-              'borderColor': '#333',
-              'borderWidth': 1,
-            },
+            'itemStyle': {'borderColor': '#333', 'borderWidth': 1},
           },
           'progressive': 1000,
           'animation': false,
@@ -208,7 +428,7 @@ class _HeatmapDiscreteMappingOfColorState extends State<HeatmapDiscreteMappingOf
 
     return GraphifyView(
       controller: GraphifyController(),
-      initialOptions: option
+      initialOptions: option,
     );
   }
 }
